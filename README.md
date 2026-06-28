@@ -13,14 +13,6 @@ A futuristic, **fully offline** IT security toolkit for Even Realities G2 smart 
 | [Port Reference](#) | ![Port reference](media/04-ports-glasses.png) |
 | [Phone companion](#) | ![Phone WebView](media/05-companion-webview.png) |
 
-![Cover](media/00-cover-glasses.png)
-
-![Main menu on glasses](media/01-menu-glasses.png)
-
-![Password Forge tool](media/02-forge-glasses.png)
-
-![Subnet calculator](media/03-subnet-glasses.png)
-
 ## Tools
 
 | Tool | What it does |
