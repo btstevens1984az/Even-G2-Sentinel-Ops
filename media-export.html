@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body { margin: 0; background: #000; }
+    canvas { display: block; width: 576px; height: 288px; image-rendering: pixelated; }
+  </style>
+</head>
+<body>
+  <canvas id="frame" width="576" height="288"></canvas>
+  <script type="module">
+    const W = 576, H = 288, MID = 144
+    const GRN = '#2bff6a', DIM = '#0f7a34', FAINT = '#0a4a20', WHITE = '#d8ffe6'
+    const c = document.getElementById('frame')
+    const ctx = c.getContext('2d')
+
+    function bg() {
+      ctx.fillStyle = '#000'
+      ctx.fillRect(0, 0, W, H)
+    }
+    function grid() {
+      ctx.strokeStyle = 'rgba(43,255,106,0.08)'
+      ctx.lineWidth = 1
+      for (let x = 0; x <= W; x += 24) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
+      for (let y = 0; y <= H; y += 24) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
+    }
+    function cornerTicks() {
+      ctx.strokeStyle = GRN; ctx.lineWidth = 2
+      const m = 10, L = 22
+      const corners = [[m, m, 1, 1], [W - m, m, -1, 1], [m, H - m, 1, -1], [W - m, H - m, -1, -1]]
+      for (const [x, y, dx, dy] of corners) {
+        ctx.beginPath(); ctx.moveTo(x, y + dy * L); ctx.lineTo(x, y); ctx.lineTo(x + dx * L, y); ctx.stroke()
+      }
+    }
+
+    function toolScreen({ title, lines, items, sel = 0 }) {
+      bg(); grid()
+      // divider
+      ctx.strokeStyle = DIM; ctx.lineWidth = 1
+      ctx.beginPath(); ctx.moveTo(8, MID); ctx.lineTo(W - 8, MID); ctx.stroke()
+      // HUD title
+      ctx.textAlign = 'left'
+      ctx.fillStyle = GRN; ctx.font = 'bold 20px ui-monospace, Menlo, monospace'
+      ctx.fillText(title, 16, 30)
+      ctx.strokeStyle = DIM; ctx.beginPath(); ctx.moveTo(16, 40); ctx.lineTo(W - 16, 40); ctx.stroke()
+      // HUD body lines
+      ctx.font = '15px ui-monospace, Menlo, monospace'
+      lines.forEach((ln, i) => {
+        ctx.fillStyle = ln.startsWith('~') || ln.startsWith('Usable') ? WHITE : '#8effb4'
+        ctx.fillText(ln, 16, 64 + i * 20)
+      })
+      // List rows
+      const rowH = 26, startY = MID + 12
+      items.forEach((it, i) => {
+        const y = startY + i * rowH
+        if (i === sel) {
+          ctx.strokeStyle = GRN; ctx.lineWidth = 1.5
+          roundRect(10, y - 4, W - 20, rowH - 4, 6); ctx.stroke()
+          ctx.fillStyle = WHITE
+          ctx.fillText('› ' + it, 22, y + 14)
+        } else {
+          ctx.fillStyle = '#3f8f5c'
+          ctx.fillText('  ' + it, 22, y + 14)
+        }
+      })
+    }
+
+    function roundRect(x, y, w, h, r) {
+      ctx.beginPath()
+      ctx.moveTo(x + r, y)
+      ctx.arcTo(x + w, y, x + w, y + h, r)
+      ctx.arcTo(x + w, y + h, x, y + h, r)
+      ctx.arcTo(x, y + h, x, y, r)
+      ctx.arcTo(x, y, x + w, y, r)
+      ctx.closePath()
+    }
+
+    function hexShield(cx, cy, s) {
+      ctx.strokeStyle = GRN; ctx.lineWidth = 3
+      ctx.beginPath()
+      ctx.moveTo(cx, cy - s)
+      ctx.lineTo(cx + s * 0.92, cy - s * 0.42)
+      ctx.lineTo(cx + s * 0.92, cy + s * 0.42)
+      ctx.lineTo(cx, cy + s)
+      ctx.lineTo(cx - s * 0.92, cy + s * 0.42)
+      ctx.lineTo(cx - s * 0.92, cy - s * 0.42)
+      ctx.closePath(); ctx.stroke()
+      // check
+      ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'
+      ctx.beginPath()
+      ctx.moveTo(cx - s * 0.34, cy)
+      ctx.lineTo(cx - s * 0.08, cy + s * 0.28)
+      ctx.lineTo(cx + s * 0.4, cy - s * 0.3)
+      ctx.stroke(); ctx.lineCap = 'butt'
+    }
+
+    const scenes = {
+      cover() {
+        bg(); grid(); cornerTicks()
+        hexShield(96, 144, 56)
+        ctx.textAlign = 'left'
+        ctx.fillStyle = WHITE; ctx.font = 'bold 44px ui-monospace, Menlo, monospace'
+        ctx.fillText('SENTINEL', 188, 122)
+        ctx.fillStyle = GRN
+        ctx.fillText('OPS', 188, 168)
+        ctx.fillStyle = '#8effb4'; ctx.font = '16px ui-monospace, Menlo, monospace'
+        ctx.fillText('IT SECURITY TOOLKIT', 190, 196)
+        ctx.strokeStyle = DIM; ctx.lineWidth = 1
+        ctx.beginPath(); ctx.moveTo(190, 86); ctx.lineTo(540, 86); ctx.stroke()
+        ctx.fillStyle = GRN; ctx.font = 'bold 13px ui-monospace, Menlo, monospace'
+        ctx.fillText('EVEN  G2 · R1', 190, 78)
+        ctx.fillStyle = '#3f8f5c'; ctx.font = '13px ui-monospace, Menlo, monospace'
+        ctx.fillText('8 OFFLINE TOOLS  ·  NO NETWORK  ·  ZERO PERMISSIONS', 96, 250)
+      },
+      menu() {
+        toolScreen({
+          title: 'SENTINEL OPS',
+          lines: ['IT SECURITY TOOLKIT  ·  G2 / R1', '8 offline tools. No network.', 'Scroll · Tap select · 2x exit'],
+          items: ['Password Forge', 'Passphrase', 'Subnet Calculator', 'Port Reference'],
+          sel: 0,
+        })
+      },
+      forge() {
+        toolScreen({
+          title: 'PASSWORD FORGE',
+          lines: ['q7K-mN9$pV2rT8xZ4bL6wH3c', '', 'Len 24 · Symbols ON · pool 74', '~149 bits · EXCELLENT'],
+          items: ['Regenerate', 'Length: 24', 'Symbols: ON', 'Back to Menu'],
+          sel: 0,
+        })
+      },
+      subnet() {
+        toolScreen({
+          title: 'SUBNET CALC · 192.168.1.0/26',
+          lines: ['Mask  255.255.255.192', 'Net   192.168.1.0', 'Bcast 192.168.1.63', 'Host  192.168.1.1 - .62', 'Usable 62 / 64'],
+          items: ['Prefix: /26', 'Base: 192.168.1.0', 'Back to Menu'],
+          sel: 0,
+        })
+      },
+      ports() {
+        toolScreen({
+          title: 'PORTS · REMOTE ACCESS',
+          lines: ['22   SSH    secure shell', '23   Telnet cleartext!', '3389 RDP    brute-force target', '5900 VNC    screen share'],
+          items: ['Next', 'Previous', 'Back to Menu'],
+          sel: 0,
+        })
+      },
+    }
+
+    const media = new URLSearchParams(location.search).get('media') ?? 'cover'
+    ;(scenes[media] ?? scenes.cover)()
+    document.body.dataset.ready = '1'
+  </script>
+</body>
+</html>

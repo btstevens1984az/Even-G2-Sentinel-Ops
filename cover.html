@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    :root { --grn: #5ee85e; --dim: #3a7a3a; }
+    * { margin: 0; box-sizing: border-box; }
+    html, body { width: 576px; height: 288px; overflow: hidden; background: #000; }
+    .frame { position: relative; width: 576px; height: 288px;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace; color: #9fff9f;
+      background:
+        radial-gradient(420px 240px at 16% 50%, rgba(94,232,94,0.14), transparent 70%),
+        #000; }
+    .grid { position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(94,232,94,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(94,232,94,0.08) 1px, transparent 1px);
+      background-size: 24px 24px; }
+    .scan { position: absolute; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0 2px, rgba(0,0,0,0.14) 2px 3px); }
+    .tick { position: absolute; width: 22px; height: 22px; border: 2px solid var(--grn); }
+    .tl { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+    .tr { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
+    .bl { bottom: 10px; left: 10px; border-right: 0; border-top: 0; }
+    .br { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+    .row { position: absolute; inset: 0; display: flex; align-items: center; gap: 26px; padding: 0 40px; }
+    .shield { filter: drop-shadow(0 0 10px rgba(94,232,94,0.55)); flex: 0 0 auto; }
+    .kicker { font-size: 13px; letter-spacing: 4px; color: var(--grn); padding-bottom: 6px;
+      border-bottom: 1px solid var(--dim); width: max-content; margin-bottom: 12px; }
+    .wm { font-size: 44px; font-weight: 800; line-height: 0.96; letter-spacing: 2px; color: var(--grn); }
+    .accent { color: #5ee85e; opacity: 0.85; }
+    .sub { font-size: 15px; letter-spacing: 2px; color: #4a9a4a; margin-top: 8px; }
+    .strip { position: absolute; left: 96px; bottom: 38px; font-size: 13px; letter-spacing: 2px; color: var(--dim); }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="grid"></div>
+    <span class="tick tl"></span><span class="tick tr"></span>
+    <span class="tick bl"></span><span class="tick br"></span>
+    <div class="row">
+      <svg class="shield" width="118" height="118" viewBox="0 0 64 64" fill="none" stroke="#9fff9f" stroke-width="2.6">
+        <path d="M32 4 L56 13 V32 C56 47 45 56 32 60 C19 56 8 47 8 32 V13 Z" stroke-linejoin="round"/>
+        <path d="M22 32 l7 8 l13 -16" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.4"/>
+      </svg>
+      <div>
+        <div class="kicker">EVEN · G2 · R1</div>
+        <div class="wm">SENTINEL<br /><span class="accent">OPS</span></div>
+        <div class="sub">RED · BLUE TEAM ARSENAL</div>
+      </div>
+    </div>
+    <div class="strip">20 OFFLINE TOOLS · NO NETWORK · ZERO PERMS</div>
+    <div class="scan"></div>
+  </div>
+  <script>document.body.dataset.ready = '1'</script>
+</body>
+</html>

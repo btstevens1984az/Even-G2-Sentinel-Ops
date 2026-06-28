@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Sentinel Ops — Even G2</title>
+    <style>
+      :root { --grn: #34ff7a; --grn-dim: #0e7a36; --cy: #29e0ff; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; background: #04070a; color: #cfeede;
+        font: 15px/1.55 ui-monospace, "SF Mono", Menlo, monospace; overflow: hidden; }
+      body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 3;
+        background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0 2px, rgba(0,0,0,0.18) 2px 3px); }
+      #bg { position: fixed; inset: 0; z-index: 0;
+        background:
+          radial-gradient(1200px 600px at 50% -10%, rgba(41,224,255,0.12), transparent 60%),
+          radial-gradient(900px 500px at 50% 110%, rgba(52,255,122,0.14), transparent 60%),
+          linear-gradient(180deg, #04070a, #061018 60%, #04070a);
+      }
+      #grid { position: fixed; inset: 0; z-index: 1; opacity: 0.25;
+        background-image:
+          linear-gradient(rgba(52,255,122,0.16) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(52,255,122,0.16) 1px, transparent 1px);
+        background-size: 34px 34px; mask-image: radial-gradient(circle at 50% 38%, #000 35%, transparent 78%); }
+      #companion { position: relative; z-index: 2; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; height: 100%; padding: 28px 22px; text-align: center; gap: 14px; }
+      .badge { font-size: 11px; letter-spacing: 4px; color: var(--cy);
+        border: 1px solid rgba(41,224,255,0.4); padding: 5px 12px; border-radius: 20px;
+        background: rgba(41,224,255,0.06); }
+      .shield { width: 84px; height: 84px; filter: drop-shadow(0 0 14px rgba(52,255,122,0.7)); }
+      h1 { margin: 4px 0 0; font-size: 30px; letter-spacing: 6px; color: #eafff1;
+        text-shadow: 0 0 18px rgba(52,255,122,0.65); }
+      .tag { margin: 0; font-size: 12px; letter-spacing: 3px; color: var(--grn); }
+      .status { margin: 6px 0 0; font-size: 14px; color: #bfe9d2; max-width: 320px; }
+      .live { display: inline-flex; align-items: center; gap: 9px; font-size: 12px; letter-spacing: 2px;
+        color: #7a8c84; border: 1px solid rgba(120,140,130,0.3); padding: 7px 14px; border-radius: 18px; }
+      .live .dot { width: 9px; height: 9px; border-radius: 50%; background: #44506a; }
+      #companion.glasses-live .live { color: var(--grn); border-color: rgba(52,255,122,0.5); }
+      #companion.glasses-live .live .dot { background: var(--grn); box-shadow: 0 0 12px var(--grn);
+        animation: pulse 1.4s ease-in-out infinite; }
+      @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+      .tools { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; margin-top: 10px;
+        width: 100%; max-width: 330px; }
+      .chip { font-size: 11px; letter-spacing: 1px; color: #bfe9d2; text-align: left;
+        border: 1px solid rgba(52,255,122,0.22); border-left: 3px solid var(--grn);
+        border-radius: 7px; padding: 8px 10px; background: rgba(52,255,122,0.05); }
+      .foot { margin-top: 10px; font-size: 11px; letter-spacing: 1px; color: #5e7a6c; }
+    </style>
+  </head>
+  <body>
+    <div id="bg"></div>
+    <div id="grid"></div>
+    <main id="companion">
+      <span class="badge">EVEN · G2 · R1</span>
+      <svg class="shield" viewBox="0 0 64 64" fill="none" stroke="#34ff7a" stroke-width="2.4">
+        <path d="M32 4 L56 13 V32 C56 47 45 56 32 60 C19 56 8 47 8 32 V13 Z" stroke-linejoin="round"/>
+        <path d="M22 32 l7 7 l13 -15" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h1>SENTINEL OPS</h1>
+      <p class="tag">v1.3.0 · RED · BLUE TEAM</p>
+      <p class="status">Sentinel Ops is running.<br />Continue on your Even G2 glasses.</p>
+      <span class="live"><span class="dot"></span><span>GLASSES DISPLAY ACTIVE</span></span>
+      <div class="tools">
+        <div class="chip">› Token Forge</div>
+        <div class="chip">› Payload Lab</div>
+        <div class="chip">› MITRE ATT&CK</div>
+        <div class="chip">› LOLBins</div>
+        <div class="chip">› Hash Fingerprints</div>
+        <div class="chip">› Sigma Rules</div>
+        <div class="chip">› Threat Hunting</div>
+        <div class="chip">› 100% Offline</div>
+      </div>
+      <p class="foot">Scroll · Tap to select · Double-tap to exit</p>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
